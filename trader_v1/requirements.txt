@@ -1,0 +1,29 @@
+# ──────────── CORE DATA STACK ────────────
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.2
+xgboost==2.1.1
+joblib==1.4.2
+
+# ──────────── DATABASE / ORM ────────────
+SQLAlchemy==2.0.36
+psycopg[binary,pool]     # ✅ replaces psycopg2-binary, modern + Python 3.13-compatible
+
+# ──────────── CONFIG / UTILITIES ────────────
+pydantic==2.8.2
+python-dotenv==1.0.1
+PyYAML==6.0.1
+
+# ──────────── NETWORKING / ASYNC ────────────
+aiohttp==3.10.8
+requests==2.32.3
+websocket-client==1.8.0
+websockets<11.0.0
+
+# ──────────── FINANCE / API CLIENTS ────────────
+yfinance==0.2.43
+alpaca-py==0.23.0
+praw==7.8.1
+
+# ──────────── AI / LLM INTEGRATION ────────────
+openai==1.45.0
