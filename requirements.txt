@@ -1,0 +1,36 @@
+# ──────────── CORE DATA STACK ────────────
+pandas==2.2.3
+numpy==2.2.0
+scikit-learn==1.7.2
+xgboost==2.1.1
+joblib==1.4.2
+
+# ──────────── DATABASE / ORM ────────────
+SQLAlchemy==2.0.36
+psycopg[binary,pool]     # modern + Python 3.13-compatible
+
+# ──────────── CONFIG / UTILITIES ────────────
+pydantic==2.8.2
+python-dotenv==1.0.1
+PyYAML==6.0.2            # ✅ bumped for Python 3.13 wheels
+tqdm==4.66.5
+
+# ──────────── NETWORKING / ASYNC ────────────
+aiohttp==3.10.8
+requests==2.32.3
+websocket-client==1.8.0
+websockets==12.0         # ✅ upgraded; <11 no longer supports Python 3.13
+
+# ──────────── FINANCE / API CLIENTS ────────────
+yfinance==0.2.43
+alpaca-py==0.23.0
+praw==7.8.1
+finnhub-python==2.4.20
+newsapi-python==0.2.7
+
+# ──────────── AI / LLM INTEGRATION ────────────
+openai==1.45.0
+
+# ──────────── TESTING / DEV TOOLS ────────────
+pytest==8.3.3
+black==24.8.0
