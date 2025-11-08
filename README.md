@@ -1,75 +1,118 @@
-Trader_Model Hybrid Runtime
-===========================
+# AI-Powered Trading Bot
 
-The orchestrator now coordinates two complementary data paths:
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)
+![Status](https://img.shields.io/badge/Status-Development_Paused-yellow.svg)
+![Built with OpenAI Codex](https://img.shields.io/badge/Built_with-OpenAI_Codex-8A2BE2.svg)
+![License](https://img.shields.io/badge/License-Pending-lightgrey.svg)
 
-- **Scheduled data layer** keeps the full S&P100 universe fresh on predictable cadences for model training and feature engineering.
-- **Real-time stream layer** watches a compact focus list (10–20 tickers) through the Alpaca IEX feed.
-- **Decision engine** consumes both layers, evaluates live opportunities, and submits trades once confidence, sentiment, and safety filters agree.
+An experimental **AI-driven algorithmic trading system** that applies **machine learning** to analyze markets, backtest strategies, and execute trades autonomously.
 
-Setup
------
-- Initialise PostgreSQL once:
-  ```bash
-  createdb trader
-  psql trader < schema.sql
-  ```
-- Copy `.env.example` to `.env` and fill secrets. New keys of note:
-  - `FOCUS_TICKERS` – comma list of 10–20 tickers to stream continuously.
-  - `AI_AUTONOMOUS_TRADING` – enable/disable the autonomous trade loop.
-  - `DISCORD_ALERT_LEVEL` – minimum severity for webhook diagnostics (`debug`, `info`, `warn`, `error`, `critical`).
-  - `ALPACA_API_BASE_URL` – overrides the Alpaca REST endpoint (paper by default).
-- Install dependencies:
-  ```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  pip install -r requirements.txt
-  ```
+Developed with the assistance of **OpenAI Codex**.
+**System framework, features, and architecture** designed by *Miles Phillips*.
 
-Hybrid Data Flow
-----------------
-- **Scheduled jobs (APScheduler)**
-  - `price_update` every 5 minutes (full S&P 100 history refresh).
-  - `news_update` every 15 minutes (News + GDELT sentiment).
-  - `fundamentals_update` every 60 minutes (FMP ratios).
-  - `social_scan` every 15 minutes (Reddit/Twitter pulse).
-  - `model_checkpoint` every 2 hours (online training snapshots).
-  - `diagnostics` every 4 hours (system heartbeat + error summary).
-- **Real-time stream**
-  - Alpaca live quotes for configured `FOCUS_TICKERS` (capped to 20 symbols).
-  - Quotes persisted in `live_quotes` for the decision engine and volatility gating.
-- **Decision engine**
-  - Merges latest scheduled signal, live quote, sentiment aggregates, and volatility estimate.
-  - Executes only when:
-    - Confidence ≥ `decision_engine.confidence_threshold` (default 0.75).
-    - Sentiment alignment and technical reasoner confirm direction.
-    - Cooldown (1 trade/min/symbol) and position limits are clear.
-  - Trades are logged to `positions` and `trades`, with Discord notifications for executions and skips.
+> **Note:** Development is currently paused pending integration with real-time market data APIs.
 
-Running
--------
-- Start the orchestrator (loads dotenv automatically):
-  ```bash
-  python -m app.orchestrator
-  ```
-- On startup:
-  - Scheduler kicks off all scheduled jobs.
-  - Alpaca stream begins for focus tickers (paper/live based on `.env`).
-  - The decision engine runs continuously with adaptive sleep (30s under high volatility, 60–120s otherwise).
+---
 
-Diagnostics & Safety
---------------------
-- Discord notifications:
-  - Executed trades post `💸 AI Trade ...` messages at `warn` level.
-  - Skipped trades (cooldown, sentiment mismatch, etc.) publish `⚠️` diagnostics respecting `DISCORD_ALERT_LEVEL`.
-  - Four-hour system report summarises error health, open positions, and trade counts.
-- Database schema now includes:
-  - `positions.side`, `trades.rationale`, and helper indices for rapid cooldown checks.
-  - Helper methods in `app/storage.py` for live quote retrieval, sentiment aggregation, and trade logging.
-- `AI_AUTONOMOUS_TRADING=false` immediately parks the decision engine while keeping the scheduler active.
+## Table of Contents
 
-Next Steps
-----------
-- Tune `decision_engine.order_notional` and thresholds in `config.yaml`.
-- Expand catalyst/news layers with additional providers if required.
-- Integrate richer Discord embeds or dashboards for executed trades if desired.
+* [Overview](#overview)
+* [Core Features](#core-features)
+* [System Architecture](#system-architecture)
+* [Installation & Setup](#installation--setup)
+* [Planned Integrations](#planned-integrations)
+* [Future Work](#future-work)
+* [License](#license)
+
+---
+
+## Overview
+
+The **AI-Powered Trading Bot** explores the application of artificial intelligence in **quantitative trading**.
+Its modular structure separates **data ingestion**, **AI-based prediction**, **strategy simulation**, and **execution management**, allowing for flexible expansion and integration with real or simulated data sources.
+
+---
+
+## Core Features
+
+* **AI-Driven Decision Engine** – Uses ML models to identify trading signals from historical and streaming data.
+* **Backtesting Framework** – Evaluates performance of strategies using historical market data.
+* **Portfolio Optimization** – Adjusts exposure dynamically based on model confidence and defined risk parameters.
+* **Modular Data Providers** – Compatible with APIs such as Alpaca, Binance, and Polygon.io.
+* **Logging & Metrics** – Tracks trade history, performance metrics, and risk factors.
+
+---
+
+## System Architecture
+
+```text
+                ┌───────────────────────┐
+                │  Data Sources (APIs)  │
+                └────────────┬──────────┘
+                             │
+                             ▼
+               ┌──────────────────────────┐
+               │   Data Processing Layer   │
+               └────────────┬─────────────┘
+                             │
+                             ▼
+         ┌────────────────────────────┐
+         │  AI/ML Prediction Engine   │
+         └────────────┬───────────────┘
+                      │
+                      ▼
+             ┌──────────────────────┐
+             │  Strategy & Risk Mgr │
+             └────────────┬─────────┘
+                          │
+                          ▼
+                 ┌─────────────────┐
+                 │   Trade Executor │
+                 └─────────────────┘
+```
+
+---
+
+## Installation & Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/ai-trading-bot.git
+cd ai-trading-bot
+
+# Create and activate a Python virtual environment
+python3 -m venv env
+source env/bin/activate   # (on Windows use .\env\Scripts\activate)
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+---
+
+## Planned Integrations
+
+* Real-time market data via Alpaca, Binance, or Polygon.io
+* Reinforcement learning–based trade optimization
+* Streamlit/FastAPI dashboard for live analytics
+* Paper trading and risk simulation modes
+* Automated drawdown and risk management tools
+
+---
+
+## Future Work
+
+* Connect to **live data streams** for real-time inference
+* Implement **reinforcement learning loops** for strategy evolution
+* Build a **plugin system** for community strategies
+* Add **automated alerting** and performance dashboards
+
+---
+
+## License
+
+This project is currently **unlicensed and under private development**.
+For collaboration or licensing inquiries, contact:
+
+**Miles Phillips**
+Email: [milesphillips@comcast.net](mailto:milesphillips@comcast.net)
