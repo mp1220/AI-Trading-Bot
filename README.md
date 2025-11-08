@@ -77,7 +77,7 @@ Its modular structure separates **data ingestion**, **AI-based prediction**, **s
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ai-trading-bot.git
+git clone https://github.com/mp1220/AI-Trading-Bot.git
 cd ai-trading-bot
 
 # Create and activate a Python virtual environment
